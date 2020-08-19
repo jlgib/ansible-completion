@@ -53,6 +53,9 @@ _ansible_complete_host() {
         && [ -d "$inventory_file" -o ! -x "$inventory_file" ] \
         && grep $grep_opts '\[.*\]' "$inventory_file" | tr -d [] | cut -d: -f1)
 
+    local hostnames=$(grep -oP 'hostname=[^\n ]*' "$inventory_file" 2> /dev/null | cut -d= -f2)
+    hosts="$hosts $hostnames"
+
     # list the hostnames with ansible command line and complete the list
     # by searching the group labels in the inventory file (if we have it)
     hosts="$hosts
